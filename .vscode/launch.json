@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "Debug smbus",
+            "type": "ros",
+            "request": "launch",
+            "target": "${workspaceFolder}/src/smbus/launch/smbus.launch.py"
+            // "preLaunchTask":"Build workspace (debug)"
+        }
+    ]
+}

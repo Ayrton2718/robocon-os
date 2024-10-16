@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/opt/ros/humble/include/**",
+                "${workspaceFolder}/**",
+                "/usr/include/eigen3/**",
+                "/usr/include/opencv4/**",
+                "/usr/local/cuda*/include/**"
+            ],
+            "defines": [
+                "BLACKBOX_PARAM_DIRECTORY=\"/tmp\"",
+                "LCMCL_MAP_DIRECTORY=\"/tmp\""
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

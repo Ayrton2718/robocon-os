@@ -1,0 +1,53 @@
+---
+- name: Enable universe repository
+  become: yes
+  block:
+    - apt:
+        update_cache: yes
+        name: software-properties-common
+    - shell: add-apt-repository -y universe
+
+- name: Add repositories
+  become: yes
+  block:
+    - get_url:
+        url: https://raw.githubusercontent.com/ros/rosdistro/master/ros.key
+        dest: /usr/share/keyrings/ros-archive-keyring.gpg
+    - apt_repository:
+        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu {{ ansible_distribution_release }} main
+    - get_url:
+        url: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
+        dest: /usr/share/keyrings/nodesource.asc
+    - apt_repository:
+        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/nodesource.asc] https://deb.nodesource.com/node_20.x nodistro main
+    - get_url:
+        url: https://tutrobo.github.io/tutrobo-ros-apt/tutrobo-ros-apt.key
+        dest: /usr/share/keyrings/tutrobo-ros-apt.gpg
+    - apt_repository:
+        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/tutrobo-ros-apt.gpg] https://tutrobo.github.io/tutrobo-ros-apt {{ ansible_distribution_release }} main
+
+- name: Install ROS2 Humble
+  become: yes
+  block:
+    - apt:
+        update_cache: yes
+        upgrade: yes
+    - apt:
+        pkg:
+          - ros-humble-desktop
+          - ros-dev-tools
+          - ros-humble-rosbag2-storage-mcap
+
+- name: Setup rosdep
+  become: yes
+  block:
+    - file:
+        path: /etc/ros/rosdep/sources.list.d/20-default.list
+        state: absent
+    - shell: rosdep init
+    - copy:
+        content: "yaml https://tutrobo.github.io/tutrobo-ros-apt/rosdep.yaml"
+        dest: /etc/ros/rosdep/sources.list.d/99-tutrobo-ros-apt.list
+
+- name: Update rosdep sources
+  shell: rosdep update

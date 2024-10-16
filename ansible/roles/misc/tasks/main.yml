@@ -1,0 +1,42 @@
+---
+- name: Disable systemd-oomd
+  systemd:
+    name: systemd-oomd
+    state: stopped
+    masked: yes
+  become: yes
+
+- name: Enable ccache
+  block:
+    - apt:
+        update_cache: yes
+        name: ccache
+      become: yes
+    - shell: ccache --set-config=max_size=10G
+
+- name: Update ~/.bashrc
+  blockinfile:
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    block: |
+      source /opt/ros/humble/setup.bash
+      source /usr/share/gazebo/setup.bash
+
+- name: Install pip3
+  become: yes
+  block:
+    - apt:
+        update_cache: yes
+        upgrade: yes
+    - apt:
+        pkg:
+          - python3-pip
+
+- name: Install yolo-v8
+  become: no
+  block:
+    - pip:
+        name:
+          - opencv-python==4.8.1.78
+          - typing-extensions>=4.4.0
+          - ultralytics==8.2.78
+        executable: pip3

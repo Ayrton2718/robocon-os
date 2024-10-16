@@ -1,0 +1,12 @@
+repositories:
+  ext/tutrc_ament:
+    type: git
+    url: https://github.com/tutrobo/ABU2023_tutrc_ament.git
+  ext/blackbox:
+    type: git
+    url: https://github.com/Ayrton2718/blackbox.git
+    version: main
+  ext/csmbus:
+    type: git
+    url: https://github.com/Ayrton2718/csmbus.git
+    version: main

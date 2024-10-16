@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  roles:
+    - ros2
+    - misc
+    - blackbox
