@@ -1,4 +1,4 @@
-# Robocon OS
+# Robot Tools
 - C99, C++17 で固定
 - cmake_minimum_required(VERSION 3.8)
 
